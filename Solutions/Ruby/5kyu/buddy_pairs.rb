@@ -1,11 +1,22 @@
-def buddy(start, limit)
-  (start...limit).each do |number|
-    sm = (1..number/2).select{ |x| number % x == 0 }.sum
+def divisors_sum(number)
+  sum = 0
+  (2..number**0.5).each do |x|
+    if number % x == 0
+      sum += x
+      sum += (number / x) if (number / x) != x
+    end
+  end
+  sum
+end
+
+def buddy(start, nd)
+  (start...nd).each do |number|
+    sm = divisors_sum(number)
     next if sm < start
     
-    sn = (1..(sm-1)/2).select{ |y| (sm-1) % y == 0 }.sum
-    return p "(#{number} #{sm-1})" if (sn-1) == number
+    sn = divisors_sum(sm)
+    return "(#{number} #{sm})" if sn == number
   end
   
-  p "Nothing"
+  "Nothing"
 end
